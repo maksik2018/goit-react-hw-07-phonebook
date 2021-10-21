@@ -1,12 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { filter, getFilter } from "../redux/reducers/filterSlice";
-// import { getFilter } from '../selectors/contacts-selector';
+import { filter } from "../redux/reducers/filterSlice";
+import { getFilter } from '../selectors/contacts-selector';
 import PropTypes from "prop-types";
 
 function Filter() {
   const dispatch = useDispatch();
   const value = useSelector((state) => getFilter(state));
+  //  const value = useSelector((state) => state.filter);
   const onChange = (e) => {
     dispatch(filter(e.target.value));
   };

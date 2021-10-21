@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from "react-redux";
-import { getFilter } from '../redux/reducers/filterSlice';
+import { getFilter } from '../selectors/contacts-selector';
 // import { useDeleteContactsMutation, useFetchContactsQuery } from '../redux/reducers/contactsSlice';
 import { useFetchContactsQuery } from '../redux/reducers/contactsSlice';
 import PropTypes from "prop-types";
@@ -11,11 +11,22 @@ import { ContactItem } from "./ContactItem";
 function ContactList() {
   const { data: contactList } = useFetchContactsQuery();
   // const [onDeleteContact, { isLoading: isDeleting }] = useDeleteContactsMutation();
-  const filterValue = useSelector((state) => getFilter(state));
+  const filterValue = useSelector((state) => getFilter(state));//получаем доступ к filter (store.js)
   const contacts = contactList?.filter((contact) =>
     contact.name.toLowerCase().includes(filterValue.toLowerCase().trim())
   );
 
+  
+  
+  return (
+    <List >
+      {contactList && contacts.map((contact) => (
+        <ContactItem key={contact.id} {...contact}/>
+       
+      ))}
+      
+    </List>
+  );
   // return (
   //   <List>
   //     {contactList && contacts.map((contact) => (
@@ -30,16 +41,6 @@ function ContactList() {
   //     ))}
   //   </List>
   // );
-  
-  return (
-    <List >
-      {contactList && contacts.map((contact) => (
-        <ContactItem key={contact.id} {...contact}/>
-       
-      ))}
-      
-    </List>
-  );
 }
 ContactList.propTypes = {
   contactList: PropTypes.arrayOf(
